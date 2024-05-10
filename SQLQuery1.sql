@@ -116,9 +116,11 @@ Population numeric,
 New_vaccinations numeric,
 RollingPeopleVaccinated numeric
 )
+SET ANSI_WARNINGS OFF
+GO
 INSERT INTO #PercentPopulationVaccinated
 select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-,SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.location ORDER BY dea.location,
+,SUM(CONVERT(bigint,vac.new_vaccinations)) OVER (Partition by dea.location ORDER BY dea.location,
 dea.Date) as RollingPeopleVaccinated
 --,(RollingPeopleVaccinated/population)*100
 from PortofolioProject..coviddeaths dea
